@@ -3,9 +3,11 @@ import { join } from 'path';
 import { EggAppConfig, PowerPartial } from 'egg';
 import OSSClient from 'oss-cnpm';
 import { patchAjv } from '../app/port/typebox';
-
+import 'dotenv/config';
+console.log(process.env.MYSQL_HOST);
 export default (appInfo: EggAppConfig) => {
   const config = {} as PowerPartial<EggAppConfig>;
+  config.keys = 'egg-ts-boilerplate-default';
 
   config.cnpmcore = {
     name: 'cnpm',
@@ -50,7 +52,7 @@ export default (appInfo: EggAppConfig) => {
     allowScopes: [
       '@cnpm',
       '@cnpmcore',
-      '@example',
+      '@daoting',
     ],
     // allow publish non-scope package, disable by default
     allowPublishNonScopePackage: false,
@@ -98,7 +100,7 @@ export default (appInfo: EggAppConfig) => {
   config.redis = {
     client: {
       port: 6379,
-      host: '127.0.0.1',
+      host: process.env.REDIS_HOST || 'localhost',
       password: '',
       db: 0,
     },

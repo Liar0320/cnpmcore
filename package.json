@@ -84,6 +84,7 @@
     "base-x": "^3.0.9",
     "bson-objectid": "^2.0.1",
     "dayjs": "^1.10.7",
+    "dotenv": "^16.0.1",
     "egg": "^2.29.4",
     "egg-cors": "^2.2.3",
     "egg-errors": "^2.3.0",
