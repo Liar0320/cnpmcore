@@ -41,7 +41,7 @@ export class TestUtil {
   static getMySqlConfig() {
     return {
       host: process.env.MYSQL_HOST || 'localhost',
-      port: process.env.MYSQL_PORT || 3306,
+      port: process.env.MYSQL_PORT || 3307,
       user: process.env.MYSQL_USER || 'root',
       password: process.env.MYSQL_PASSWORD,
       multipleStatements: true,

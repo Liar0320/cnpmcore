@@ -4,7 +4,8 @@ import { EggAppConfig, PowerPartial } from 'egg';
 import OSSClient from 'oss-cnpm';
 import { patchAjv } from '../app/port/typebox';
 import 'dotenv/config';
-console.log(process.env.MYSQL_HOST);
+import FSClient from 'fs-cnpm';
+
 export default (appInfo: EggAppConfig) => {
   const config = {} as PowerPartial<EggAppConfig>;
   config.keys = 'egg-ts-boilerplate-default';
@@ -49,11 +50,7 @@ export default (appInfo: EggAppConfig) => {
     // if `alwaysAuth=true`, all api request required access token
     alwaysAuth: false,
     // white scope list
-    allowScopes: [
-      '@cnpm',
-      '@cnpmcore',
-      '@daoting',
-    ],
+    allowScopes: [ '@cnpm', '@cnpmcore', '@daoting' ],
     // allow publish non-scope package, disable by default
     allowPublishNonScopePackage: false,
     // Public registration is allowed, otherwise only admins can login
@@ -61,7 +58,7 @@ export default (appInfo: EggAppConfig) => {
     // default system admins
     admins: {
       // name: email
-      cnpmcore_admin: 'admin@cnpmjs.org',
+      cnpmcore_admin: 'daoting@cnpmjs.org',
     },
     // http response cache control header
     enableCDN: false,
@@ -121,15 +118,24 @@ export default (appInfo: EggAppConfig) => {
   };
 
   config.nfs = {
-    client: null,
+    client: new FSClient({ dir: join(config.dataDir, 'nfs') }),
     dir: join(config.dataDir, 'nfs'),
   };
   // enable oss nfs store by env values
   if (process.env.CNPMCORE_NFS_TYPE === 'oss') {
-    assert(process.env.CNPMCORE_NFS_OSS_BUCKET, 'require env CNPMCORE_NFS_OSS_BUCKET');
-    assert(process.env.CNPMCORE_NFS_OSS_ENDPOINT, 'require env CNPMCORE_NFS_OSS_ENDPOINT');
+    assert(
+      process.env.CNPMCORE_NFS_OSS_BUCKET,
+      'require env CNPMCORE_NFS_OSS_BUCKET',
+    );
+    assert(
+      process.env.CNPMCORE_NFS_OSS_ENDPOINT,
+      'require env CNPMCORE_NFS_OSS_ENDPOINT',
+    );
     assert(process.env.CNPMCORE_NFS_OSS_ID, 'require env CNPMCORE_NFS_OSS_ID');
-    assert(process.env.CNPMCORE_NFS_OSS_SECRET, 'require env CNPMCORE_NFS_OSS_SECRET');
+    assert(
+      process.env.CNPMCORE_NFS_OSS_SECRET,
+      'require env CNPMCORE_NFS_OSS_SECRET',
+    );
     config.nfs.client = new OSSClient({
       cdnBaseUrl: process.env.CNPMCORE_NFS_OSS_CDN,
       endpoint: process.env.CNPMCORE_NFS_OSS_ENDPOINT,
