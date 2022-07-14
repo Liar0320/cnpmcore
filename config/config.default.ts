@@ -23,7 +23,7 @@ export default (appInfo: EggAppConfig) => {
     // sync mode
     //  - none: don't sync npm package, just redirect it to sourceRegistry
     //  - all: sync all npm packages
-    syncMode: 'none',
+    syncMode: 'all',
     syncPackageWorkerMaxConcurrentTasks: 10,
     // stop syncing these packages in future
     syncPackageBlockList: [],
@@ -116,6 +116,7 @@ export default (appInfo: EggAppConfig) => {
     },
     credentials: true,
   };
+  console.log('🚀 -> file: config.default.ts -> line 122 -> config.dataDir', config.dataDir);
 
   config.nfs = {
     client: new FSClient({ dir: join(config.dataDir, 'nfs') }),
